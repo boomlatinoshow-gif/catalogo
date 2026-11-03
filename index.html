@@ -81,8 +81,6 @@
             <!-- Filter tabs -->
             <div class="flex flex-wrap gap-2 w-full md:w-auto justify-center">
                 <button onclick="setCategory('all')" id="cat-all" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-gold text-darkBg font-semibold shadow-md">Todos</button>
-                <button onclick="setCategory('decant')" id="cat-decant" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-cardBg border border-white/10 text-gray-300 hover:border-gold"></button>
-                <button onclick="setCategory('full')" id="cat-full" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-cardBg border border-white/10 text-gray-300 hover:border-gold"></button>
             </div>
         </div>
 
@@ -143,12 +141,8 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // CONFIGURA TU NÚMERO DE WHATSAPP AQUÍ (con código de país, ej: 5939XXXXXXXX)
         const WHATSAPP_PHONE = "593967254640"; 
 
-        // ==========================================
-        // AQUÍ PUEDES AGREGAR O EDITAR TUS PERFUMES
-        // ==========================================
         const perfumes = [
             {
                 id: 1,
@@ -357,7 +351,7 @@
                 tag: "Agotado",
                 image: "https://i.postimg.cc/HLYMCxMV/Gemini-Generated-Image-y9kbt8y9kbt8y9kb.jpg"
             },
-        {
+            {
                 id: 24,
                 name: "KHAMRA QAHWA EDP -100 ML",
                 house: "Lattafa",
@@ -627,7 +621,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/zvwpqk5w/Gemini-Generated-Image-3dko7e3dko7e3dko.jpg"
             },
-             {
+            {
                 id: 54,
                 name: "EMIR AL SULTAN EXTRAIT DE PARFUM 100 ML",
                 house: "L’HAYA",
@@ -636,7 +630,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/xdWPHZ1t/Gemini-Generated-Image-g726zog726zog726.jpg"
             },
-             {
+            {
                 id: 55,
                 name: "PACIFIC SUNSET- EXTRAIT DE PARFUM 100 ML",
                 house: "L’HAYA",
@@ -645,7 +639,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/C5wkspTG/Gemini-Generated-Image-nb16l2nb16l2nb16.jpg"
             },
-             {
+            {
                 id: 56,
                 name: "Khamrah Waha EDP -100 ML",
                 house: "Lattafa",
@@ -654,7 +648,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/Dy3J3TS0/Gemini-Generated-Image-rjj46orjj46orjj4.jpg"
             },
-             {
+            {
                 id: 57,
                 name: "JASOOR EDP -100 ML",
                 house: "LATTAFA",
@@ -663,7 +657,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/SxsmwTfS/Gemini-Generated-Image-3a4avm3a4avm3a4a.jpg"
             },
-             {
+            {
                 id: 58,
                 name: "INTENSO EDP -100 ML + 20ml",
                 house: "STALLION 53",
@@ -672,7 +666,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/XqVR9q2S/Gemini-Generated-Image-8thrd08thrd08thr.jpg"
             },
-             {
+            {
                 id: 59,
                 name: "Iconic Dubai III EDP -100 ML",
                 house: "Emper",
@@ -681,7 +675,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/XJvKF0w8/Gemini-Generated-Image-owncncowncncownc.jpg"
             },
-             {
+            {
                 id: 60,
                 name: "HABIK FOR MEN EDP -100 ML",
                 house: "LATTAFA",
@@ -690,7 +684,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/qBhZq9pN/Gemini-Generated-Image-y8l4fay8l4fay8l4.jpg"
             },
-             {
+            {
                 id: 61,
                 name: "HIGH END STAR OF PARADISE EDP -100 ML",
                 house: "EMPER",
@@ -699,7 +693,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/k4x6hJx5/Gemini-Generated-Image-uvbpx7uvbpx7uvbp.jpg"
             },
-             {
+            {
                 id: 62,
                 name: "ARABIA HAYA EDP -100 ML",
                 house: "EMPER",
@@ -708,7 +702,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/7YcH0vzq/Gemini-Generated-Image-diahqodiahqodiah.jpg"
             },
-             {
+            {
                 id: 63,
                 name: "HABIK FOR WOMAN -100 ML",
                 house: "LATTAFA",
@@ -717,7 +711,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/xCwrqQ7s/Gemini-Generated-Image-gfv38gfv38gfv38g.jpg"
             },
-             {
+            {
                 id: 64,
                 name: "GENIUS HAYATI EDP -100 ML",
                 house: "EMPER",
@@ -726,7 +720,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/HLrPMKbR/Gemini-Generated-Image-iqwsgfiqwsgfiqws.jpg"
             },
-              {
+            {
                 id: 65,
                 name: "Victory EDP -100 ML",
                 house: "Frais et Frais",
@@ -735,7 +729,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/c4J763R2/Gemini-Generated-Image-u62edbu62edbu62e.jpg"
             },
-              {
+            {
                 id: 66,
                 name: "EXELOF PURE GOLD EDP -100 ML",
                 house: "Milestone",
@@ -744,7 +738,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/ZnNWyTqK/Gemini-Generated-Image-3t20lt3t20lt3t20.jpg"
             },
-              {
+            {
                 id: 67,
                 name: "ELIXIR 88 EDP -100 ML",
                 house: "STALLION 53",
@@ -753,7 +747,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/TYRxbdh8/Gemini-Generated-Image-9jgi6p9jgi6p9jgi.jpg"
             },
-              {
+            {
                 id: 68,
                 name: "EPITOME AMBRA NOMAD EDP -100 ML",
                 house: "EMPER",
@@ -762,7 +756,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/8cXZsmjg/Gemini-Generated-Image-e4en0oe4en0oe4en.jpg"
             },
-              {
+            {
                 id: 69,
                 name: "DALLAH CUBA EDP -100 ML",
                 house: " LE CHAMEAU",
@@ -771,7 +765,7 @@
                 tag: "Agotado",
                 image: "https://i.postimg.cc/BZjYwRy1/Gemini-Generated-Image-scxy4mscxy4mscxy.jpg"
             },
-              {
+            {
                 id: 70,
                 name: "CASABELLA MOONLIGHT (Femenino) EDP -100 ML",
                 house: "LE CHAMEAU",
@@ -780,7 +774,7 @@
                 tag: "Disponible",
                 image: "https://i.postimg.cc/SRLzvSbc/Gemini-Generated-Image-zflf37zflf37zflf.jpg"
             },
-              {
+            {
                 id: 71,
                 name: "Bling Black Pearl (Femenino) EDP -100 ML",
                 house: "Mirada",
@@ -881,7 +875,7 @@
             }
         ];
 
-       let cart = [];
+        let cart = [];
         let currentFilter = 'all';
 
         function renderProducts(filterText = '') {
@@ -901,12 +895,17 @@
             }
 
             filtered.forEach(p => {
+                const isAgotado = p.tag.toLowerCase().includes('agotado');
+                const tagClass = isAgotado 
+                    ? 'bg-red-950/80 text-red-300 border-red-500/50' 
+                    : 'bg-green-950/80 text-green-300 border-green-500/50';
+
                 grid.innerHTML += `
                     <div class="bg-cardBg border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-gold/50 transition-all duration-300 shadow-xl group">
                         <div>
                             <div class="relative h-64 overflow-hidden bg-darkBg">
                                 <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                <span class="absolute top-3 left-3 bg-darkBg/85 backdrop-blur-md text-gold border border-gold/30 text-xs px-3 py-1 rounded-full font-medium">
+                                <span class="absolute top-3 left-3 backdrop-blur-md text-xs px-3 py-1 rounded-full font-medium border ${tagClass}">
                                     ${p.tag}
                                 </span>
                             </div>
