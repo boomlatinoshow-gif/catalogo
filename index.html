@@ -939,10 +939,153 @@
                             <div class="p-5 space-y-2">
                                 <span class="text-xs text-gold uppercase tracking-widest font-semibold">${p.house}</span>
                                 <h3 class="font-serif text-lg font-bold text-white leading-tight">${p.name}</h3>
-                                <p class="text-xs text-gray-400 italic">${p.inspired}</p> </div> </div>                          <div class="p-5 pt-0 space-y-4"> <!-- Precio Frasco Completo --> <div class="flex items-center justify-between bg-darkBg px-4 py-3 rounded-xl border border-white/5"> <span class="text-xs text-gray-400 uppercase font-medium">Frasco Completo</span> <span class="text-gold font-bold text-base">$${p.priceFull.toFixed(2)}</span>
+                                <p class="text-xs text-gray-400 italic">${p.inspired}</p>
+                            </div>
+                        </div>
+
+                        <div class="p-5 pt-0 space-y-4">
+                            <!-- Precio Frasco Completo -->
+                            <div class="flex items-center justify-between bg-darkBg px-4 py-3 rounded-xl border border-white/5">
+                                <span class="text-xs text-gray-400 uppercase font-medium">Frasco Completo</span>
+                                <span class="text-gold font-bold text-base">$${p.priceFull.toFixed(2)}</span>
                             </div>
 
                             <!-- Add to cart button -->
                             <button onclick="addToCart(${p.id})" class="w-full bg-white/5 hover:bg-gold hover:text-darkBg border border-white/10 hover:border-gold text-white font-medium py-2.5 rounded-xl text-sm transition-all flex items-center justify-center space-x-2">
                                 <i class="fa-solid fa-cart-plus"></i>
-                                <span>
+                                <span>Añadir al Pedido</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterProducts() {
+            renderProducts(document.getElementById('search-input').value);
+        }
+
+        function addToCart(id) {
+            const product = perfumes.find(p => p.id === id);
+            const price = product.priceFull;
+            const formatName = 'Frasco Completo';
+
+            const cartItemKey = `${id}-full`;
+            const existing = cart.find(item => item.key === cartItemKey);
+
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({
+                    key: cartItemKey,
+                    name: product.name,
+                    house: product.house,
+                    formatName: formatName,
+                    price: price,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            toggleCart(true);
+        }
+
+        function updateCartUI() {
+            const countEl = document.getElementById('cart-count');
+            const itemsEl = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            countEl.textContent = totalCount;
+
+            if (cart.length === 0) {
+                itemsEl.innerHTML = `<div class="text-center py-12 text-gray-500 text-sm">Tu carrito está vacío</div>`;
+                totalEl.textContent = "$0.00";
+                return;
+            }
+
+            itemsEl.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+
+                itemsEl.innerHTML += `
+                    <div class="py-4 flex justify-between items-center text-sm border-b border-white/5">
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-white">${item.name}</h4>
+                            <p class="text-xs text-gold">${item.formatName}</p>
+                            <p class="text-xs text-gray-400">$${item.price.toFixed(2)} c/u</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="flex items-center space-x-2 bg-darkBg px-2 py-1 rounded-lg border border-white/10">
+                                <button onclick="changeQty('${item.key}', -1)" class="text-gray-400 hover:text-white px-1">-</button>
+                                <span class="text-white font-medium">${item.quantity}</span>
+                                <button onclick="changeQty('${item.key}', 1)" class="text-gray-400 hover:text-white px-1">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            totalEl.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function changeQty(key, delta) {
+            const item = cart.find(i => i.key === key);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.key !== key);
+                }
+            }
+            updateCartUI();
+        }
+
+        function toggleCart(forceOpen = false) {
+            const modal = document.getElementById('cart-modal');
+            if (forceOpen) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.toggle('hidden');
+            }
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                alert("Agrega al menos un perfume a tu pedido.");
+                return;
+            }
+
+            const name = document.getElementById('customer-name').value.trim();
+            const city = document.getElementById('customer-city').value.trim();
+
+            if (!name || !city) {
+                alert("Por favor ingresa tu Nombre y Ciudad para el envío.");
+                return;
+            }
+
+            let message = `¡Hola J.B. HOUSE! 🛍️ Deseo realizar el siguiente pedido:%0A%0A`;
+            message += `👤 *Cliente:* ${name}%0A`;
+            message += `📍 *Ciudad:* ${city}%0A%0A`;
+            message += `*Detalle de perfumes:*%0A`;
+
+            let total = 0;
+            cart.forEach(item => {
+                const sub = item.price * item.quantity;
+                total += sub;
+                message += `- ${item.quantity}x ${item.name} (${item.formatName}) - $${sub.toFixed(2)}%0A`;
+            });
+
+            message += `%0A💰 *Total a cancelar:* $${total.toFixed(2)}%0A%0AQuedo atento/a para coordinar el pago y envío. ¡Gracias!`;
+
+            const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${message}`;
+            window.open(url, '_blank');
+        }
+
+        // Inicializar al cargar
+        renderProducts();
+    </script>
+</body>
+</html>
