@@ -884,7 +884,7 @@
        let cart = [];
         let currentFilter = 'all';
 
-        function renderProducts(filterText = '') {
+        function renderProducts(filterText = '') {gg
             const grid = document.getElementById('products-grid');
             grid.innerHTML = '';
 
@@ -905,14 +905,14 @@
                     <div class="bg-cardBg border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-gold/50 transition-all duration-300 shadow-xl group">
                         <div>
                             <div class="relative h-64 overflow-hidden bg-darkBg">
-                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                <span class="absolute top-3 left-3 bg-darkBg/85 backdrop-blur-md text-gold border border-gold/30 text-xs px-3 py-1 rounded-full font-medium">
-                                    ${p.tag}
-                                </span>
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scalgge-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 backdrop-blur-md text-xs px-3 py-1 rounded-full font-medium border ${p.tag.toLowerCase().includes('agotado') ? 'bg-red-900/80 text-red-200 border-red-500/40' : 'bg-green-900/80 text-green-200 border-green-500/40'}">
+                        ${p.tag}
+                    </span>
                             </div>
                             <div class="p-5 space-y-2">
                                 <span class="text-xs text-gold uppercase tracking-widest font-semibold">${p.house}</span>
-                                <h3 class="font-serif text-lg font-bold text-white leading-tight">${p.name}</h3>
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">${p.name}</h3>g
                                 <p class="text-xs text-gray-400 italic">${p.inspired}</p>
                             </div>
                         </div>
