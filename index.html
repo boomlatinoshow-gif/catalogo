@@ -484,6 +484,39 @@
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Se llena con JavaScript -->
         </div>
+
+        <!-- BLOQUE DE CONFIANZA Y GARANTÍA -->
+        <section class="mt-14 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-cardBg/80 border border-gold/25 rounded-2xl p-5 flex items-start space-x-3.5 shadow-lg">
+                <div class="w-10 h-10 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold shrink-0">
+                    <i class="fa-solid fa-shield-halved text-base"></i>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="font-serif text-sm font-bold text-white">100% Originales e Importados</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Fragancias auténticas y selladas de fábrica, seleccionadas directamente de sus casas perfumistas.</p>
+                </div>
+            </div>
+
+            <div class="bg-cardBg/80 border border-gold/25 rounded-2xl p-5 flex items-start space-x-3.5 shadow-lg">
+                <div class="w-10 h-10 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold shrink-0">
+                    <i class="fa-solid fa-truck-fast text-base"></i>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="font-serif text-sm font-bold text-white">Envío Seguro a Todo el Ecuador</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Despacho cuidadoso y rastreable hasta la puerta de tu casa en cualquier ciudad del país.</p>
+                </div>
+            </div>
+
+            <div class="bg-cardBg/80 border border-gold/25 rounded-2xl p-5 flex items-start space-x-3.5 shadow-lg">
+                <div class="w-10 h-10 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold shrink-0">
+                    <i class="fa-solid fa-headset text-base"></i>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="font-serif text-sm font-bold text-white">Atención Directa por WhatsApp</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Te acompañamos antes y después de tu compra para resolver dudas y coordinar tu entrega.</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- BOTÓN FLOTANTE DE WHATSAPP Y BOTÓN VOLVER ARRIBA -->
@@ -523,9 +556,15 @@
                     <input type="text" id="customer-city" placeholder="Ciudad (Ej. Riobamba, Quito...)" class="w-full px-3 py-2 bg-cardBg border border-white/10 rounded-lg text-sm focus:outline-none focus:border-gold">
                 </div>
 
-                <div class="flex justify-between items-center text-lg font-bold pt-2 border-t border-white/10">
-                    <span>Total Estimado:</span>
-                    <span id="cart-total" class="text-gold">$0.00</span>
+                <div class="space-y-1 pt-2 border-t border-white/10">
+                    <div class="flex justify-between items-center text-xs text-green-300">
+                        <span><i class="fa-solid fa-truck-fast mr-1"></i> Envío en Ecuador:</span>
+                        <span class="font-semibold">Gratis</span>
+                    </div>
+                    <div class="flex justify-between items-center text-lg font-bold pt-1">
+                        <span>Total Estimado:</span>
+                        <span id="cart-total" class="text-gold">$0.00</span>
+                    </div>
                 </div>
 
                 <button type="button" onclick="checkoutWhatsApp()" class="w-full bg-gradient-to-r from-gold-dark via-gold to-gold-light text-darkBg font-bold py-3 px-4 rounded-xl shadow-lg hover:opacity-90 transition-opacity flex items-center justify-center space-x-2">
@@ -613,7 +652,7 @@
                 name: "Rose Night (Femenino) EDP - 90 ML",
                 house: "Abyat",
                 gender: "mujer",
-                occasion: "🌙☀️ versatil / Romántico",
+                occasion: "🌙 Noche / Romántico",
                 inspired: "Aroma floral, cítrico y avainillado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -1935,6 +1974,14 @@
             window.open(url, '_blank');
         }
 
+        function inquireOutOfStock(productName, houseName) {
+            const nameInput = document.getElementById('customer-name') || document.getElementById('access-name');
+            const clientName = nameInput && nameInput.value.trim() ? ` (soy ${nameInput.value.trim()})` : '';
+            const message = `¡Hola J.B. HOUSE! 👋${clientName}, vi en el catálogo el perfume *${productName}* (${houseName}) que figura como *Agotado*. ¿Me avisas cuándo vuelve a ingresar o si se puede encargar?`;
+            const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
         function openLightbox(id) {
             const product = perfumes.find(p => p.id === id);
             if (!product) return;
@@ -2064,11 +2111,24 @@
                     ? `<span class="inline-block text-[11px] text-gold-light bg-gold/10 border border-gold/25 px-2.5 py-0.5 rounded-full font-medium">${p.occasion}</span>` 
                     : '';
 
+                const safeName = p.name.replace(/'/g, "\\'");
+                const safeHouse = p.house.replace(/'/g, "\\'");
+
+                const actionButton = isAgotado
+                    ? `<button type="button" onclick="inquireOutOfStock('${safeName}', '${safeHouse}')" class="w-full bg-red-950/30 hover:bg-red-900/50 border border-red-500/35 text-red-200 font-medium py-2.5 px-3 rounded-xl text-xs sm:text-sm transition-all flex items-center justify-center space-x-2">
+                        <i class="fa-brands fa-whatsapp text-green-400 text-base"></i>
+                        <span>Consultar Disponibilidad / Encargo</span>
+                       </button>`
+                    : `<button type="button" onclick="addToCart(${p.id})" class="w-full bg-white/5 hover:bg-gold hover:text-darkBg border border-white/10 hover:border-gold text-white font-medium py-2.5 rounded-xl text-sm transition-all flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        <span>Añadir al Pedido</span>
+                       </button>`;
+
                 grid.innerHTML += `
                     <div class="bg-cardBg border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-gold/50 transition-all duration-300 shadow-xl group">
                         <div>
                             <div onclick="openLightbox(${p.id})" class="relative h-64 overflow-hidden bg-darkBg cursor-zoom-in">
-                                <img id="prod-img-${p.id}" data-current="1" src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img id="prod-img-${p.id}" data-current="1" src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${isAgotado ? 'opacity-80' : ''}">
                                 <span class="absolute top-3 left-3 backdrop-blur-md text-xs px-3 py-1 rounded-full font-medium border ${tagClass} z-10 pointer-events-none">
                                     ${p.tag}
                                 </span>
@@ -2093,10 +2153,7 @@
                                 <span class="text-gold font-bold text-base">$${p.priceFull.toFixed(2)}</span>
                             </div>
 
-                            <button type="button" onclick="addToCart(${p.id})" class="w-full bg-white/5 hover:bg-gold hover:text-darkBg border border-white/10 hover:border-gold text-white font-medium py-2.5 rounded-xl text-sm transition-all flex items-center justify-center space-x-2">
-                                <i class="fa-solid fa-cart-plus"></i>
-                                <span>Añadir al Pedido</span>
-                            </button>
+                            ${actionButton}
                         </div>
                     </div>
                 `;
