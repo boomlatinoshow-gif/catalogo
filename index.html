@@ -34,6 +34,9 @@
         }
     </script>
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         .marquee-container:hover .marquee-track {
             animation-play-state: paused;
         }
@@ -161,23 +164,48 @@
     <!-- MAIN CONTENT & FILTERS -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
-        <!-- SEARCH & CATEGORIES -->
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-            <div class="relative w-full md:w-80">
+        <!-- SEARCH & BRAND RESET -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+            <div class="relative w-full md:w-96">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
-                <input type="text" id="search-input" oninput="filterProducts()" placeholder="Buscar perfume o inspiración..." 
+                <input type="text" id="search-input" oninput="filterProducts()" placeholder="Buscar perfume, nota o casa..." 
                     class="w-full pl-10 pr-4 py-2.5 bg-cardBg border border-white/10 rounded-xl focus:outline-none focus:border-gold text-sm text-white placeholder-gray-500 transition-colors">
             </div>
 
             <div class="flex flex-wrap gap-2 w-full md:w-auto justify-center">
-                <button type="button" onclick="setBrand('all')" id="btn-all" class="brand-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-gold text-darkBg font-semibold shadow-md">Todos</button>
+                <button type="button" onclick="resetAllFilters()" id="btn-all" class="brand-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-gold text-darkBg font-semibold shadow-md">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> Todas las Marcas
+                </button>
             </div>
         </div>
 
-        <!-- CARRUSEL INFINITO DE LOGOS 100% ALINEADOS SEGÚN TUS ENLACES EXACTOS -->
-        <div class="mb-12 overflow-hidden relative marquee-container py-4 bg-cardBg/40 border-y border-white/10 backdrop-blur-sm rounded-2xl">
+        <!-- FILTROS RÁPIDOS POR GÉNERO Y DISPONIBILIDAD -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6 bg-cardBg/50 border border-white/10 p-3 rounded-2xl">
+            <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="setGender('all')" id="gender-all" class="gender-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all bg-gold text-darkBg">
+                    Todos
+                </button>
+                <button type="button" onclick="setGender('hombre')" id="gender-hombre" class="gender-btn px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all bg-darkBg text-gray-300 border border-white/10 hover:border-gold/50">
+                    👨 Hombre
+                </button>
+                <button type="button" onclick="setGender('mujer')" id="gender-mujer" class="gender-btn px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all bg-darkBg text-gray-300 border border-white/10 hover:border-gold/50">
+                    👩 Mujer
+                </button>
+                <button type="button" onclick="setGender('unisex')" id="gender-unisex" class="gender-btn px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all bg-darkBg text-gray-300 border border-white/10 hover:border-gold/50">
+                    ✨ Unisex
+                </button>
+            </div>
+
+            <button type="button" onclick="toggleOnlyAvailable()" id="btn-available" class="px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all bg-darkBg text-gray-300 border border-white/10 hover:border-green-500/50 flex items-center space-x-1.5">
+                <i class="fa-solid fa-circle-check text-green-400"></i>
+                <span>Solo Disponibles</span>
+            </button>
+        </div>
+
+        <!-- CARRUSEL INFINITO DE LOGOS -->
+        <div class="mb-8 overflow-hidden relative marquee-container py-4 bg-cardBg/40 border-y border-white/10 backdrop-blur-sm rounded-2xl">
             <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-darkBg to-transparent z-10 pointer-events-none"></div>
             <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-darkBg to-transparent z-10 pointer-events-none"></div>
 
@@ -430,11 +458,46 @@
             </div>
         </div>
 
+        <!-- BANNER DE ASESORÍA RÁPIDA PARA INDECISOS -->
+        <div class="mb-8 bg-gradient-to-r from-cardBg via-[#221d0f] to-cardBg border border-gold/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+            <div class="flex items-center space-x-3.5 text-center sm:text-left">
+                <div class="w-11 h-11 rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center text-gold shrink-0">
+                    <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-sm sm:text-base font-bold text-white">¿No sabes cuál elegir o buscas un aroma en especial?</h3>
+                    <p class="text-xs text-gray-400">Cuéntanos qué estilos o notas te gustan y te recomendamos tu fragancia ideal al instante.</p>
+                </div>
+            </div>
+            <button type="button" onclick="openAdviceWhatsApp()" class="w-full sm:w-auto shrink-0 bg-gold hover:bg-gold-light text-darkBg font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all flex items-center justify-center space-x-2 shadow-md">
+                <i class="fa-brands fa-whatsapp text-base"></i>
+                <span>Pedir Asesoría</span>
+            </button>
+        </div>
+
+        <!-- CONTADOR DE RESULTADOS -->
+        <div class="flex items-center justify-between mb-5 px-1">
+            <p id="results-count" class="text-xs sm:text-sm text-gray-400 font-medium">Mostrando fragancias...</p>
+        </div>
+
         <!-- PRODUCTS GRID -->
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Se llena con JavaScript -->
         </div>
     </main>
+
+    <!-- BOTÓN FLOTANTE DE WHATSAPP Y BOTÓN VOLVER ARRIBA -->
+    <div class="fixed bottom-5 right-5 z-40 flex flex-col items-center space-y-3">
+        <button type="button" id="scroll-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Volver arriba"
+            class="opacity-0 pointer-events-none transition-all duration-300 w-11 h-11 rounded-full bg-cardBg/95 border border-gold/40 hover:border-gold text-gold shadow-xl flex items-center justify-center">
+            <i class="fa-solid fa-arrow-up text-sm"></i>
+        </button>
+
+        <button type="button" onclick="openAdviceWhatsApp()" title="Chatear por WhatsApp"
+            class="w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-2xl shadow-black/60 flex items-center justify-center transition-transform hover:scale-105">
+            <i class="fa-brands fa-whatsapp text-3xl"></i>
+        </button>
+    </div>
 
     <!-- CART DRAWER MODAL -->
     <div id="cart-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex justify-end transition-opacity">
@@ -513,6 +576,8 @@
                 id: 1,
                 name: "Abyat Romansiyat (Femenino) EDP -100 ML",
                 house: "Abyat",
+                gender: "mujer",
+                occasion: "✨ Elegante / Citas",
                 inspired: "Aroma floral, frutal y ambarado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -523,6 +588,8 @@
                 id: 2,
                 name: "ijaaz EDP - 100 ML",
                 house: "Abyat",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Versátil",
                 inspired: "Aroma cítrico, especiado y amaderado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -533,6 +600,8 @@
                 id: 3,
                 name: "Rajul Sharqui (Masculino) EDP -100 ML",
                 house: "Abyat",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Aroma fresco, marino y cítrico",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -543,6 +612,8 @@
                 id: 4,
                 name: "Rose Night (Femenino) EDP - 90 ML",
                 house: "Abyat",
+                gender: "mujer",
+                occasion: "🌙 Noche / Romántico",
                 inspired: "Aroma floral, cítrico y avainillado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -555,6 +626,8 @@
                 id: 5,
                 name: "9PM EDP -100 ML",
                 house: "Afnan",
+                gender: "hombre",
+                occasion: "🌙 Noche / Fiesta",
                 inspired: "Aroma dulce, frutal y avainillado",
                 priceFull: 56.00,
                 tag: "Disponible",
@@ -565,6 +638,8 @@
                 id: 6,
                 name: "9PM NIGHT OUD EDP -100 ML",
                 house: "Afnan",
+                gender: "hombre",
+                occasion: "🔥 Seductor / Noche",
                 inspired: "Aroma frutal, licoroso y amaderado",
                 priceFull: 70.00,
                 tag: "Agotado",
@@ -575,6 +650,8 @@
                 id: 7,
                 name: "9PM REBEL EDP -100 ML",
                 house: "Afnan",
+                gender: "hombre",
+                occasion: "🔥 Seductor / Salidas",
                 inspired: "Aroma frutal, dulce y amaderado",
                 priceFull: 64.00,
                 tag: "Disponible",
@@ -585,6 +662,8 @@
                 id: 8,
                 name: "Supremacy Collector's Edition EDP -100 ML",
                 house: "Afnan",
+                gender: "hombre",
+                occasion: "✨ Elegante / Todo Momento",
                 inspired: "Aroma frutal, ahumado y amaderado",
                 priceFull: 75.00,
                 tag: "Disponible",
@@ -597,6 +676,8 @@
                 id: 9,
                 name: "HAYA CRUSH (Femenino) EDP -100 ML",
                 house: "Arabia",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma a cereza, dulce y atalcado",
                 priceFull: 45.00,
                 tag: "Agotado",
@@ -609,6 +690,8 @@
                 id: 10,
                 name: "CLUB DE NUIT Intense EDP -105 ML",
                 house: "Armaf",
+                gender: "hombre",
+                occasion: "🔥 Seductor / Noche",
                 inspired: "Aroma cítrico, ahumado y amaderado",
                 priceFull: 58.00,
                 tag: "Agotado",
@@ -619,6 +702,8 @@
                 id: 11,
                 name: "DUNESCAPE EDP -100 ML",
                 house: "Armaf",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Aroma cítrico, limpio y ozónico",
                 priceFull: 64.00,
                 tag: "Agotado",
@@ -629,6 +714,8 @@
                 id: 12,
                 name: "ETER ARABIAN SKY MEN EDP -100 ML",
                 house: "Armaf",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Versátil",
                 inspired: "Cítrico (por la bergamota, el limón, la naranja y la toronja), dulce y Amaderado (por el cedro, el vetiver y el pachulí)",
                 priceFull: 70.00,
                 tag: "Disponible",
@@ -639,6 +726,8 @@
                 id: 13,
                 name: "ODYSSEY AQUA EDITION EDP MEN - -100 ML",
                 house: "Armaf",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Aromático (por la lavanda, la menta y el abrótano), Cítrico (por la naranja y el pomelo) y Amaderado (por el ciprés y el pachulí)",
                 priceFull: 59.00,
                 tag: "Disponible",
@@ -649,6 +738,8 @@
                 id: 14,
                 name: "Odyssey Homme White Edition EDP -100 ML",
                 house: "Armaf",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Limpio",
                 inspired: "Aroma limpio, cítrico y amaderado",
                 priceFull: 54.00,
                 tag: "Disponible",
@@ -659,6 +750,8 @@
                 id: 15,
                 name: "ODYSSEY MANDARIN SKY EDP -100 ML",
                 house: "Armaf",
+                gender: "hombre",
+                occasion: "🌙 Noche / Citas",
                 inspired: "Aroma cítrico, acaramelado y dulce",
                 priceFull: 58.00,
                 tag: "Disponible",
@@ -669,6 +762,8 @@
                 id: 16,
                 name: "Yum Yum Intense para Mujer EDP -100 ML",
                 house: "Armaf",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma dulce, frutal y atalcado",
                 priceFull: 64.00,
                 tag: "Disponible",
@@ -681,6 +776,8 @@
                 id: 17,
                 name: "Rome Lucky EDP -100 ML",
                 house: "Bharara",
+                gender: "unisex",
+                occasion: "🌙 Noche / Elegante",
                 inspired: "Aroma dulce, amaderado y avellanado",
                 priceFull: 59.00,
                 tag: "Disponible",
@@ -693,6 +790,8 @@
                 id: 18,
                 name: "Atelier EDP -100 ML",
                 house: "Camara",
+                gender: "unisex",
+                occasion: "🌙 Noche / Citas",
                 inspired: "Aroma dulce, ambarado y avainillado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -703,6 +802,8 @@
                 id: 19,
                 name: "Lana Bliss (Femenino) EDP -100 ML",
                 house: "Camara",
+                gender: "mujer",
+                occasion: "☀️ Uso Diario / Tropical",
                 inspired: "Aroma tropical, floral y lactónico",
                 priceFull: 50.00,
                 tag: "Disponible",
@@ -713,6 +814,8 @@
                 id: 20,
                 name: "Lana Dazzle (Femenino) EDP -100 ML",
                 house: "Camara",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma dulce, cremoso y avellanado",
                 priceFull: 50.00,
                 tag: "Disponible",
@@ -723,6 +826,8 @@
                 id: 21,
                 name: "Lana Obsession (Femenino) EDP -100 ML",
                 house: "Camara",
+                gender: "mujer",
+                occasion: "🌙 Noche / Seductor",
                 inspired: "Aroma dulce, ambarado y avainillado",
                 priceFull: 50.00,
                 tag: "Disponible",
@@ -733,6 +838,8 @@
                 id: 22,
                 name: "Seniorita So Excite (Femenino) EDP -100 ML",
                 house: "Camara",
+                gender: "mujer",
+                occasion: "☀️ Uso Diario / Juvenil",
                 inspired: "Aroma dulce, frutal y floral",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -743,6 +850,8 @@
                 id: 23,
                 name: "Vamos Atelier (Masculino) EDP -100 ML",
                 house: "Camara",
+                gender: "hombre",
+                occasion: "🌙 Noche / Citas",
                 inspired: "Aroma dulce, ambarado y avainillado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -753,11 +862,13 @@
                 id: 24,
                 name: "Vamos Voyage Elixir (Masculino) EDP -100 ML",
                 house: "Camara",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Versátil",
                 inspired: "Aroma cítrico, dulce y amaderado",
                 priceFull: 45.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/YCrq32s3/Gemini-Generated-Image-7gbw447gbw447gbw.jpg",
-                image2: "https://i.postimg.cc/4NXd07jb/image-b670cb7b.jpg"
+                image2: "https://i.postimg.cc/YCrq32s3/Gemini-Generated-Image-7gbw447gbw447gbw.jpg"
             },
 
             // --- CASA: CAVAYELO ---
@@ -765,8 +876,10 @@
                 id: 25,
                 name: "LUXURY DIFFUSER -110 ML",
                 house: "Cavayelo",
+                gender: "unisex",
+                occasion: "🏠 Hogar / Ambiente",
                 inspired: "Difusor elegante, aromático y duradero",
-                priceFull: 29.00,
+                priceFull: 30.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/Dwypy1tW/Gemini-Generated-Image-4soef34soef34soe.jpg",
                 image2: "https://i.postimg.cc/Dwypy1tW/Gemini-Generated-Image-4soef34soef34soe.jpg"
@@ -777,6 +890,8 @@
                 id: 26,
                 name: "NITRO 10ML 8 PCS MINI SET",
                 house: "Dumont",
+                gender: "unisex",
+                occasion: "🎁 Regalo / Colección",
                 inspired: "Set variado, fresco y dulce",
                 priceFull: 64.00,
                 tag: "Agotado",
@@ -784,74 +899,88 @@
                 image2: "https://i.postimg.cc/B6fCDsPj/Gemini-Generated-Image-actvt9actvt9actv.jpg"
             },
 
-            // --- CASA: EMPER (Incluye Emper, Milestone, Le Chameau, Stallion 53) ---
+            // --- CASA: EMPER ---
             {
                 id: 27,
                 name: "ARABIA HAYA EDP -100 ML",
                 house: "Emper",
+                gender: "mujer",
+                occasion: "☀️ Uso Diario / Femenino",
                 inspired: "Aroma floral, frutal y dulce",
                 priceFull: 50.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/7YcH0vzq/Gemini-Generated-Image-diahqodiahqodiah.jpg",
-                image2: "https://i.postimg.cc/KjqdQHdq/image-37500f6b.jpg"
+                image2: "https://i.postimg.cc/7YcH0vzq/Gemini-Generated-Image-diahqodiahqodiah.jpg"
             },
             {
                 id: 28,
                 name: "CASABELLA MOONLIGHT (Femenino) EDP -100 ML",
                 house: "Emper",
+                gender: "mujer",
+                occasion: "🌙 Noche / Elegante",
                 inspired: "Aroma frutal, floral y ambarado",
                 priceFull: 60.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/SRLzvSbc/Gemini-Generated-Image-zflf37zflf37zflf.jpg",
-                image2: "https://i.postimg.cc/PqS9dc5B/image-2c10f1b7.jpg"
+                image2: "https://i.postimg.cc/SRLzvSbc/Gemini-Generated-Image-zflf37zflf37zflf.jpg"
             },
             {
                 id: 29,
                 name: "Casabella Twilight (Femenino)  EDP -100 ML",
                 house: "Emper",
+                gender: "mujer",
+                occasion: "✨ Citas / Salidas",
                 inspired: "Aroma frutal, floral y amaderado",
                 priceFull: 60.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/zfQMVphn/Gemini-Generated-Image-a5icaa5icaa5icaa.jpg",
-                image2: "https://i.postimg.cc/L43fhppB/image-1a9d2eff.jpg"
+                image2: "https://i.postimg.cc/zfQMVphn/Gemini-Generated-Image-a5icaa5icaa5icaa.jpg"
             },
             {
                 id: 30,
                 name: "DALLAH CUBA EDP -100 ML",
                 house: "Emper",
+                gender: "hombre",
+                occasion: "🌙 Noche / Intenso",
                 inspired: "Aroma dulce, citrico, tabaco y ambarado",
                 priceFull: 58.00,
                 tag: "Agotado",
                 image: "https://i.postimg.cc/BZjYwRy1/Gemini-Generated-Image-scxy4mscxy4mscxy.jpg",
-                image2: "https://i.postimg.cc/5yyxxLJ3/image-7d7c825.jpg"
+                image2: "https://i.postimg.cc/BZjYwRy1/Gemini-Generated-Image-scxy4mscxy4mscxy.jpg"
             },
             {
                 id: 31,
                 name: "DALLAH TURKISH EDP -100 ML",
                 house: "Emper",
+                gender: "unisex",
+                occasion: "✨ Elegante / Noche",
                 inspired: "Aroma floral, frutal y ambarado",
                 priceFull: 58.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/1RjLdCTw/Gemini-Generated-Image-aiq87raiq87raiq8.jpg",
-                image2: "https://i.postimg.cc/wjpjNtQq/image-206b542f.jpg"
+                image2: "https://i.postimg.cc/1RjLdCTw/Gemini-Generated-Image-aiq87raiq87raiq8.jpg"
             },
             {
                 id: 32,
                 name: "ELIXIR 88 EDP -100 ML",
                 house: "Emper",
+                gender: "unisex",
+                occasion: "🔥 Seductor / Noche",
                 inspired: "Aroma dulce, ambarado y avainillado",
                 priceFull: 55.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/TYRxbdh8/Gemini-Generated-Image-9jgi6p9jgi6p9jgi.jpg",
-                image2: "https://i.postimg.cc/QCm0qKWh/image-d88a007.jpg"
+                image2: "https://i.postimg.cc/TYRxbdh8/Gemini-Generated-Image-9jgi6p9jgi6p9jgi.jpg"
             },
             {
                 id: 33,
                 name: "EPITOME AMBRA NOMAD EDP -100 ML",
                 house: "Emper",
+                gender: "unisex",
+                occasion: "🌙 Noche / Formal",
                 inspired: "Aroma ambarado, ahumado y amaderado",
                 priceFull: 45.00,
-                tag: "Agotado",
+                tag: "Disponible",
                 image: "https://i.postimg.cc/8cXZsmjg/Gemini-Generated-Image-e4en0oe4en0oe4en.jpg",
                 image2: "https://i.postimg.cc/8cXZsmjg/Gemini-Generated-Image-e4en0oe4en0oe4en.jpg"
             },
@@ -859,16 +988,20 @@
                 id: 34,
                 name: "EXELOF PURE GOLD EDP -100 ML",
                 house: "Emper",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Tropical",
                 inspired: "Aroma frutal, tropical y almizclado",
                 priceFull: 55.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/ZnNWyTqK/Gemini-Generated-Image-3t20lt3t20lt3t20.jpg",
-                image2: "https://i.postimg.cc/3JPDcJCY/image-226a37c1.jpg"
+                image2: "https://i.postimg.cc/ZnNWyTqK/Gemini-Generated-Image-3t20lt3t20lt3t20.jpg"
             },
             {
                 id: 35,
                 name: "GENIUS HAYATI EDP -100 ML",
                 house: "Emper",
+                gender: "hombre",
+                occasion: "🔥 Seductor / Salidas",
                 inspired: "Aroma citrico, ambarado y avainillado",
                 priceFull: 50.00,
                 tag: "Disponible",
@@ -879,6 +1012,8 @@
                 id: 36,
                 name: "HIGH END STAR OF PARADISE EDP -100 ML",
                 house: "Emper",
+                gender: "unisex",
+                occasion: "✨ Elegante / Noche",
                 inspired: "Aroma floral, ambarado y amaderado",
                 priceFull: 56.00,
                 tag: "Agotado",
@@ -889,16 +1024,20 @@
                 id: 37,
                 name: "Iconic Dubai III EDP -100 ML",
                 house: "Emper",
+                gender: "unisex",
+                occasion: "🌙 Noche / Citas",
                 inspired: "Aroma dulce, especiado y avainillado",
                 priceFull: 55.00,
                 tag: "Disponible",
                 image: "https://i.postimg.cc/XJvKF0w8/Gemini-Generated-Image-owncncowncncownc.jpg",
-                image2: "https://i.postimg.cc/jdCFhvv4/image-604bba45.jpg"
+                image2: "https://i.postimg.cc/XJvKF0w8/Gemini-Generated-Image-owncncowncncownc.jpg"
             },
             {
                 id: 38,
                 name: "INTENSO EDP -100 ML + 20ml",
                 house: "Emper",
+                gender: "hombre",
+                occasion: "🌙 Noche / Versátil",
                 inspired: "Aroma frutal, especiado y amaderado",
                 priceFull: 55.00,
                 tag: "Disponible",
@@ -909,6 +1048,8 @@
                 id: 39,
                 name: "MANDORA 100ml + 20ml(Masculino)",
                 house: "Emper",
+                gender: "hombre",
+                occasion: "🔥 Seductor / Fiesta",
                 inspired: "Aroma cítrico, acaramelado y dulce",
                 priceFull: 55.00,
                 tag: "Disponible",
@@ -919,6 +1060,8 @@
                 id: 40,
                 name: "Mastermind red (masculino) EDP -100 ML",
                 house: "Emper",
+                gender: "hombre",
+                occasion: "🌙 Noche / Citas",
                 inspired: "Aroma especiado, cálido y ambarado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -929,6 +1072,8 @@
                 id: 41,
                 name: "SENSATION (Femenino) EDP -100 ML",
                 house: "Emper",
+                gender: "mujer",
+                occasion: "☀️ Uso Diario / Citas",
                 inspired: "Aroma frutal, floral y dulce",
                 priceFull: 55.00,
                 tag: "Disponible",
@@ -939,6 +1084,8 @@
                 id: 42,
                 name: "VENUS DE MILO ELYSIUM (Femenino) EDP -85 ML",
                 house: "Emper",
+                gender: "mujer",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Aroma fresco, floral y cítrico",
                 priceFull: 50.00,
                 tag: "Disponible",
@@ -949,6 +1096,8 @@
                 id: 43,
                 name: "VENUS DE MILO NECTAR (Femenino) EDP -85 ML",
                 house: "Emper",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma dulce, tropical y lactónico",
                 priceFull: 50.00,
                 tag: "Disponible",
@@ -961,6 +1110,8 @@
                 id: 44,
                 name: "Victory EDP -100 ML",
                 house: "Frais et Frais",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Elegante",
                 inspired: "Aroma especiado, fresco y amaderado",
                 priceFull: 55.00,
                 tag: "Disponible",
@@ -973,6 +1124,8 @@
                 id: 45,
                 name: "Liquid Brun EDP -100 ML",
                 house: "French Avenue",
+                gender: "hombre",
+                occasion: "🌙 Noche / Seductor",
                 inspired: "Especiado (por la canela, el cardamomo y la nuez moscada), Dulce (por la vainilla y el haba tonka) y Amaderado (por la madera de gaiac y las resinas aromáticas)",
                 priceFull: 64.00,
                 tag: "Disponible",
@@ -983,6 +1136,8 @@
                 id: 46,
                 name: "Vulcan Feu EDP -100 ML",
                 house: "French Avenue",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Tropical",
                 inspired: "Aroma frutal, tropical y especiado",
                 priceFull: 68.00,
                 tag: "Disponible",
@@ -995,6 +1150,8 @@
                 id: 47,
                 name: "CARAMEL CASHMERAN EXTRAIT THE PARFUM -100 ML",
                 house: "L’Haya",
+                gender: "unisex",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma dulce, acaramelado y ambarado",
                 priceFull: 65.00,
                 tag: "Disponible",
@@ -1005,6 +1162,8 @@
                 id: 48,
                 name: "EMIR AL SULTAN EXTRAIT DE PARFUM 100 ML",
                 house: "L’Haya",
+                gender: "hombre",
+                occasion: "🌙 Noche / Formal",
                 inspired: "Aroma amaderado, especiado y ambarado",
                 priceFull: 65.00,
                 tag: "Disponible",
@@ -1015,6 +1174,8 @@
                 id: 49,
                 name: "L’HAYA AMBER INTENSE EXTRAIT DE PARFUM -100 ML",
                 house: "L’Haya",
+                gender: "unisex",
+                occasion: "🌙 Noche / Seductor",
                 inspired: "Aroma ambarado, cálido y especiado",
                 priceFull: 65.00,
                 tag: "Disponible",
@@ -1025,6 +1186,8 @@
                 id: 50,
                 name: "PACIFIC SUNSET- EXTRAIT DE PARFUM 100 ML",
                 house: "L’Haya",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Tropical",
                 inspired: "Aroma tropical, frutal y cítrico",
                 priceFull: 65.00,
                 tag: "Disponible",
@@ -1035,6 +1198,8 @@
                 id: 51,
                 name: "RAAHA EXTRAIT DE PARFUM (Femenino) -100 ML",
                 house: "L’Haya",
+                gender: "mujer",
+                occasion: "✨ Elegante / Citas",
                 inspired: "Aroma floral, dulce y acaramelado",
                 priceFull: 65.00,
                 tag: "Disponible",
@@ -1047,6 +1212,8 @@
                 id: 52,
                 name: "ANGHAM (Femenino) EDP -100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma dulce, ambarado y avainillado",
                 priceFull: 60.00,
                 tag: "Disponible",
@@ -1057,6 +1224,8 @@
                 id: 53,
                 name: "ASAD BOURBON EDP -100 ML",
                 house: "Lattafa",
+                gender: "hombre",
+                occasion: "🌙 Noche / Seductor",
                 inspired: "Dulce (por la vainilla Bourbon, la ciruela mirabel y el cacao), Especiado (por la pimienta rosa y la nuez moscada) y Ambarado (por el ámbar y la calidez resinosa de fondo)",
                 priceFull: 58.00,
                 tag: "Disponible",
@@ -1067,6 +1236,8 @@
                 id: 54,
                 name: "Asad Elixir EDP -100 ML",
                 house: "Lattafa",
+                gender: "hombre",
+                occasion: "🌙 Noche / Fiesta",
                 inspired: "Aroma especiado, licoroso y amaderado",
                 priceFull: 60.00,
                 tag: "Disponible",
@@ -1077,6 +1248,8 @@
                 id: 55,
                 name: "ASAD LATAFFA LATTAFA EDP -100 ML",
                 house: "Lattafa",
+                gender: "hombre",
+                occasion: "🔥 Seductor / Todo Momento",
                 inspired: "Aroma especiado, ambarado y avainillado",
                 priceFull: 55.00,
                 tag: "Disponible",
@@ -1087,6 +1260,8 @@
                 id: 56,
                 name: "BADEE AL OUD HONOR AND GLORY EDP -100 ML",
                 house: "Lattafa",
+                gender: "unisex",
+                occasion: "🔥 Seductor / Noche",
                 inspired: "Gourmand, Dulce y Especiado",
                 priceFull: 54.00,
                 tag: "Disponible",
@@ -1097,6 +1272,8 @@
                 id: 57,
                 name: "Bade'e Al Oud Noble Blush (Femenino) EDT - 100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "✨ Dulce / Citas",
                 inspired: "Dulce (por el acorde de almendras azucaradas, la vainilla y el haba tonka), Frutal (por la pera, el pistacho cremoso y la bergamota) y Floral (por el corazón de peonía, magnolia e iris)",
                 priceFull: 55.00,
                 tag: "Agotado",
@@ -1107,6 +1284,8 @@
                 id: 58,
                 name: "ECLAIRE EDP -100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma dulce, acaramelado y lactónico",
                 priceFull: 59.00,
                 tag: "Disponible",
@@ -1117,6 +1296,8 @@
                 id: 59,
                 name: "Fakhar Extrait EDT - 100 ML",
                 house: "Lattafa",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Versátil",
                 inspired: "Cítrico (por la salida vibrante de pomelo, la pimienta rosa y el cardamomo), Aromático (por la artemisa, las notas solares y el matiz especiado) y Ambarado (por el fondo profundo de ámbar, cuero y cashmeran)",
                 priceFull: 55.00,
                 tag: "Agotado",
@@ -1127,6 +1308,8 @@
                 id: 60,
                 name: "HABIK FOR MEN EDP -100 ML",
                 house: "Lattafa",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Elegante",
                 inspired: "Aroma especiado, aromático y amaderado",
                 priceFull: 60.00,
                 tag: "Disponible",
@@ -1137,6 +1320,8 @@
                 id: 61,
                 name: "HABIK FOR WOMAN -100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "✨ Elegante / Todo Momento",
                 inspired: "Aroma floral, frutal y dulce",
                 priceFull: 60.00,
                 tag: "Disponible",
@@ -1147,9 +1332,11 @@
                 id: 62,
                 name: "JASOOR EDP -100 ML",
                 house: "Lattafa",
+                gender: "hombre",
+                occasion: "🌙 Noche / Seductor",
                 inspired: "Aroma frutal, cuero y amaderado",
                 priceFull: 60.00,
-                tag: "Agotado",
+                tag: "Disponible",
                 image: "https://i.postimg.cc/SxsmwTfS/Gemini-Generated-Image-3a4avm3a4avm3a4a.jpg",
                 image2: "https://i.postimg.cc/SxsmwTfS/Gemini-Generated-Image-3a4avm3a4avm3a4a.jpg"
             },
@@ -1157,6 +1344,8 @@
                 id: 63,
                 name: "KHAMRA EDP -100 ML",
                 house: "Lattafa",
+                gender: "unisex",
+                occasion: "🌙 Noche / Fiesta",
                 inspired: "Aroma dulce, acanelado y ambarado",
                 priceFull: 58.00,
                 tag: "Disponible",
@@ -1167,6 +1356,8 @@
                 id: 64,
                 name: "KHAMRA QAHWA EDP -100 ML",
                 house: "Lattafa",
+                gender: "unisex",
+                occasion: "🔥 Seductor / Noche",
                 inspired: "Aroma a café, dulce y acanelado",
                 priceFull: 58.00,
                 tag: "Disponible",
@@ -1177,6 +1368,8 @@
                 id: 65,
                 name: "Khamrah Mira (femenino) EDP - 100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "🌙 Noche / Dulce",
                 inspired: "Dulce (por la vainilla de Madagascar, el haba tonka y el cacao), Gourmand (por la nota texturizada de castaña, el cacao y el perfil cálido-comestible) y Especiado (por la canela y la calidez de las resinas)",
                 priceFull: 73.00,
                 tag: "Agotado",
@@ -1187,6 +1380,8 @@
                 id: 66,
                 name: "Khamrah Waha EDP -100 ML",
                 house: "Lattafa",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Tropical",
                 inspired: "Aroma tropical, frutal y cítrico",
                 priceFull: 70.00,
                 tag: "Disponible",
@@ -1197,6 +1392,8 @@
                 id: 67,
                 name: "MAYAR CHERRY INTENSE (Femenino) EDP -100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma frutal, cereza y dulce",
                 priceFull: 59.00,
                 tag: "Disponible",
@@ -1207,6 +1404,8 @@
                 id: 68,
                 name: "Musamam White Intense EDP -100 ML",
                 house: "Lattafa",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Cremoso",
                 inspired: "Aroma cítrico, de coco y cremoso",
                 priceFull: 63.00,
                 tag: "Disponible",
@@ -1217,6 +1416,8 @@
                 id: 69,
                 name: "Qaed Al Fursan EDP -100 ML",
                 house: "Lattafa",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Frutal",
                 inspired: "Aroma frutal, piña y amaderado",
                 priceFull: 48.00,
                 tag: "Disponible",
@@ -1227,6 +1428,8 @@
                 id: 70,
                 name: "Rave Now EDP -100 ML",
                 house: "Lattafa",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Versátil",
                 inspired: "Aroma frutal, piña y ahumado",
                 priceFull: 50.00,
                 tag: "Disponible",
@@ -1237,6 +1440,8 @@
                 id: 71,
                 name: "The Kingdom EDP- 100 ML",
                 house: "Lattafa",
+                gender: "hombre",
+                occasion: "🌙 Noche / Seductor",
                 inspired: "Aromático (por la lavanda, la menta y la salvia de salida), Dulce (por la vainilla y el haba tonka) y Ambarado (por el benjuí, el ládano y la calidez del tabaco)",
                 priceFull: 55.00,
                 tag: "Agotado",
@@ -1247,9 +1452,11 @@
                 id: 72,
                 name: "YARA EDP -100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "✨ Uso Diario / Dulce",
                 inspired: "Aroma dulce, frutal y lactónico",
                 priceFull: 55.00,
-                tag: "Agotado",
+                tag: "Disponible",
                 image: "https://i.postimg.cc/WpxkXZGW/Gemini-Generated-Image-520a74520a74520a.jpg",
                 image2: "https://i.postimg.cc/WpxkXZGW/Gemini-Generated-Image-520a74520a74520a.jpg"
             },
@@ -1257,6 +1464,8 @@
                 id: 73,
                 name: "Yara Elixir EDP -100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Aroma dulce, especiado y floral",
                 priceFull: 60.00,
                 tag: "Disponible",
@@ -1269,6 +1478,8 @@
                 id: 74,
                 name: "Sceptre Malachite EDP -100 ML",
                 house: "Maison Alhambra",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Tropical",
                 inspired: "Aroma tropical, frutal y amaderado",
                 priceFull: 54.00,
                 tag: "Disponible",
@@ -1281,6 +1492,8 @@
                 id: 75,
                 name: "Bling Black Pearl (Femenino) EDP -100 ML",
                 house: "Mirada",
+                gender: "mujer",
+                occasion: "🌙 Noche / Seductor",
                 inspired: "Aroma Cafe, ambarado y Vainilla de Madagascar",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -1291,6 +1504,8 @@
                 id: 76,
                 name: "Bling White Pearl (Femenino) EDP -100 ML",
                 house: "Mirada",
+                gender: "mujer",
+                occasion: "✨ Elegante / Todo Momento",
                 inspired: "Aroma floral, atalcado y almizclado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -1301,6 +1516,8 @@
                 id: 77,
                 name: "Brave Noir (Masculino) EDP -100 ML",
                 house: "Mirada",
+                gender: "hombre",
+                occasion: "🌙 Noche / Formal",
                 inspired: "Aroma amaderado, especiado y aromático",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -1311,6 +1528,8 @@
                 id: 78,
                 name: "Elysia Jovial (Femenino) EDP -100 ML",
                 house: "Mirada",
+                gender: "mujer",
+                occasion: "☀️ Uso Diario / Juvenil",
                 inspired: "Aroma frutal, floral y dulce",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -1321,6 +1540,8 @@
                 id: 79,
                 name: "Muse Beauté Noire (Femenino)  EDP -100 ML",
                 house: "Mirada",
+                gender: "mujer",
+                occasion: "🌙 Noche / Citas",
                 inspired: "Aroma floral, ambarado y amaderado",
                 priceFull: 45.00,
                 tag: "Disponible",
@@ -1333,6 +1554,8 @@
                 id: 80,
                 name: "NÁUTICA VOYAGE EDT - 100 ML",
                 house: "Náutica",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Fresco, Acuático y Frutal",
                 priceFull: 50.00,
                 tag: "Agotado",
@@ -1345,6 +1568,8 @@
                 id: 81,
                 name: "Hawas Fire EDP -100 ML",
                 house: "Rasasi",
+                gender: "hombre",
+                occasion: "🔥 Seductor / Noche",
                 inspired: "Aroma especiado, frutal y amaderado",
                 priceFull: 67.00,
                 tag: "Disponible",
@@ -1355,6 +1580,8 @@
                 id: 82,
                 name: "HAWAS ICE MEN EDP -100 ML",
                 house: "Rasasi",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Aroma cítrico, mentolado y frutal",
                 priceFull: 68.00,
                 tag: "Disponible",
@@ -1365,6 +1592,8 @@
                 id: 83,
                 name: "HAWAS KOBRA EDP -100 ML",
                 house: "Rasasi",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Versátil",
                 inspired: "Aroma cítrico, especiado y limpio",
                 priceFull: 64.00,
                 tag: "Disponible",
@@ -1375,6 +1604,8 @@
                 id: 84,
                 name: "HAWAS MALIBU EDP -100 ML",
                 house: "Rasasi",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Tropical",
                 inspired: "Tropical (por la intensa nota de piña y la naranja), Cítrico (por la toronja y los cítricos de salida) y Dulce (por el fondo de haba tonka y ámbar)",
                 priceFull: 65.00,
                 tag: "Agotado",
@@ -1385,6 +1616,8 @@
                 id: 85,
                 name: "Hawas Tropical EDP -100 ML",
                 house: "Rasasi",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Tropical",
                 inspired: "Aroma dulce, de coco y verde",
                 priceFull: 64.00,
                 tag: "Agotado",
@@ -1395,6 +1628,8 @@
                 id: 86,
                 name: "Hawas Verde EDP MEN - -100 ML",
                 house: "Rasasi",
+                gender: "hombre",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Aroma Cítrico (por la lima), Aromático (por el romero), Ambarado (por el fondo de ámbar y pachulí)",
                 priceFull: 75.00,
                 tag: "Agotado",
@@ -1407,6 +1642,8 @@
                 id: 87,
                 name: "Aquatica EDP -100 ML",
                 house: "Rayhaan",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Aroma tropical, cítrico y dulce",
                 priceFull: 63.00,
                 tag: "Disponible",
@@ -1419,6 +1656,8 @@
                 id: 88,
                 name: "WHEEL OF ODYSSEY 3X30ML FOR MAN & WOMAN CHOCOLATE+ MARSHMALLOW+CANDE EDP",
                 house: "ARMAF",
+                gender: "unisex",
+                occasion: "🎁 Regalo / Dulce",
                 inspired: "Gourmand, Dulce y Frutal",
                 priceFull: 74.00,
                 tag: "Agotado",
@@ -1429,6 +1668,8 @@
                 id: 89,
                 name: "CLUB DE NUIT SILLAGE EDP -100 ML",
                 house: "ARMAF",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Elegante",
                 inspired: "Cítrico, Fresco y Amaderado",
                 priceFull: 60.00,
                 tag: "Agotado",
@@ -1439,6 +1680,8 @@
                 id: 90,
                 name: "CLUB DE NUIT MILESTONE EDP -100 ML",
                 house: "Armaf",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Fresco",
                 inspired: "Acuático, Frutal y Almizclado",
                 priceFull: 60.00,
                 tag: "Agotado",
@@ -1449,6 +1692,8 @@
                 id: 91,
                 name: "WHEEL OF ODYSSEY 3X30ML FOR MAN & WOMAN GO MANGO+BAHAMAS+MARSHMALLOW",
                 house: "ARMAF",
+                gender: "unisex",
+                occasion: "🎁 Regalo / Tropical",
                 inspired: "Frutal, Dulce y Tropical",
                 priceFull: 75.00,
                 tag: "Agotado",
@@ -1459,6 +1704,8 @@
                 id: 92,
                 name: "Yara Set 2 pcs Edp 100 ml + Body Spray 200 ml",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "🎁 Regalo / Dulce",
                 inspired: "Gourmand, Dulce y Atalcado",
                 priceFull: 65.00,
                 tag: "Agotado",
@@ -1469,6 +1716,8 @@
                 id: 93,
                 name: "CLUB DE NUIT MALEKA (Femenino) EDP -100 ML",
                 house: "ARMAF",
+                gender: "mujer",
+                occasion: "✨ Elegante / Citas",
                 inspired: "Frutal, Atalcado y Dulce",
                 priceFull: 60.00,
                 tag: "Agotado",
@@ -1479,6 +1728,8 @@
                 id: 94,
                 name: "ESPADA INTENSE EMPER EDP -100 ML",
                 house: "Emper",
+                gender: "hombre",
+                occasion: "🌙 Noche / Seductor",
                 inspired: "Ambarado, Dulce y Floral",
                 priceFull: 47.00,
                 tag: "Agotado",
@@ -1489,6 +1740,8 @@
                 id: 95,
                 name: "CLUB DE NUIT WOMEN EDP -100 ML",
                 house: "ARMAF",
+                gender: "mujer",
+                occasion: "✨ Elegante / Todo Momento",
                 inspired: "Cítrico, Floral y Pachulí",
                 priceFull: 57.00,
                 tag: "Agotado",
@@ -1499,6 +1752,8 @@
                 id: 96,
                 name: "Club de Nuit Elite EDP -100 ML",
                 house: "Armaf",
+                gender: "hombre",
+                occasion: "🌙 Noche / Elegante",
                 inspired: "Cítrico, Verde y Terroso",
                 priceFull: 70.00,
                 tag: "Agotado",
@@ -1509,6 +1764,8 @@
                 id: 97,
                 name: "SET MAYAR 2 PIEZAS EDP -100 ML",
                 house: "Lattafa",
+                gender: "mujer",
+                occasion: "🎁 Regalo / Floral",
                 inspired: "Frutal, Floral y Almizclado",
                 priceFull: 63.00,
                 tag: "Agotado",
@@ -1519,6 +1776,8 @@
                 id: 98,
                 name: "MARSHSMALLOW CANDY- EXTRAIT THE PARFUM -100 ML",
                 house: "L’HAYA",
+                gender: "mujer",
+                occasion: "🔥 Dulce / Citas",
                 inspired: "Dulce, Frutal y Floral",
                 priceFull: 65.00,
                 tag: "Agotado",
@@ -1529,6 +1788,8 @@
                 id: 99,
                 name: "MYSTIC MIRAGE-EXTRAIT DE PARFUM -100 ML",
                 house: "L’HAYA",
+                gender: "unisex",
+                occasion: "☀️ Uso Diario / Versátil",
                 inspired: "Cítrico, Aromático y Amaderado",
                 priceFull: 65.00,
                 tag: "Agotado",
@@ -1539,6 +1800,8 @@
 
         let cart = [];
         let currentBrand = 'all';
+        let currentGender = 'all';
+        let onlyAvailable = false;
         let lightboxProduct = null;
         let lightboxIndex = 1;
 
@@ -1598,25 +1861,78 @@
             document.querySelectorAll('.brand-logo-btn div').forEach(el => {
                 el.classList.remove('border-gold', 'ring-2', 'ring-gold');
             });
-            document.querySelectorAll('.brand-btn').forEach(btn => {
-                btn.classList.remove('bg-gold', 'text-darkBg', 'font-semibold', 'shadow-md');
-                btn.classList.add('bg-cardBg', 'text-gray-300', 'border', 'border-white/10');
-            });
 
-            if (brandName === 'all') {
-                const allBtn = document.getElementById('btn-all');
-                if (allBtn) {
-                    allBtn.classList.remove('bg-cardBg', 'text-gray-300', 'border', 'border-white/10');
-                    allBtn.classList.add('bg-gold', 'text-darkBg', 'font-semibold', 'shadow-md');
-                }
-            } else {
+            if (brandName !== 'all') {
                 document.querySelectorAll(`[data-brand="${brandName}"] div`).forEach(el => {
                     el.classList.add('border-gold', 'ring-2', 'ring-gold');
                 });
             }
 
+            filterProducts();
+        }
+
+        function setGender(gender) {
+            currentGender = gender;
+
+            document.querySelectorAll('.gender-btn').forEach(btn => {
+                btn.classList.remove('bg-gold', 'text-darkBg', 'font-semibold');
+                btn.classList.add('bg-darkBg', 'text-gray-300', 'border', 'border-white/10', 'font-medium');
+            });
+
+            const activeBtn = document.getElementById(`gender-${gender}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-darkBg', 'text-gray-300', 'border', 'border-white/10', 'font-medium');
+                activeBtn.classList.add('bg-gold', 'text-darkBg', 'font-semibold');
+            }
+
+            filterProducts();
+        }
+
+        function toggleOnlyAvailable() {
+            onlyAvailable = !onlyAvailable;
+            const btn = document.getElementById('btn-available');
+            if (!btn) return;
+
+            if (onlyAvailable) {
+                btn.classList.remove('bg-darkBg', 'text-gray-300', 'border-white/10');
+                btn.classList.add('bg-green-950/90', 'text-green-300', 'border', 'border-green-500/50', 'font-semibold');
+            } else {
+                btn.classList.remove('bg-green-950/90', 'text-green-300', 'border-green-500/50', 'font-semibold');
+                btn.classList.add('bg-darkBg', 'text-gray-300', 'border', 'border-white/10');
+            }
+
+            filterProducts();
+        }
+
+        function resetAllFilters() {
+            currentBrand = 'all';
+            currentGender = 'all';
+            onlyAvailable = false;
+
             const searchInput = document.getElementById('search-input');
-            renderProducts(searchInput ? searchInput.value : '');
+            if (searchInput) searchInput.value = '';
+
+            document.querySelectorAll('.brand-logo-btn div').forEach(el => {
+                el.classList.remove('border-gold', 'ring-2', 'ring-gold');
+            });
+
+            setGender('all');
+
+            const availBtn = document.getElementById('btn-available');
+            if (availBtn) {
+                availBtn.classList.remove('bg-green-950/90', 'text-green-300', 'border-green-500/50', 'font-semibold');
+                availBtn.classList.add('bg-darkBg', 'text-gray-300', 'border', 'border-white/10');
+            }
+
+            renderProducts('');
+        }
+
+        function openAdviceWhatsApp() {
+            const nameInput = document.getElementById('customer-name') || document.getElementById('access-name');
+            const clientName = nameInput && nameInput.value.trim() ? ` (soy ${nameInput.value.trim()})` : '';
+            const message = `¡Hola J.B. HOUSE! 👋${clientName}, necesito asesoría para elegir un perfume. ¿Me ayudas a recomendarme opciones según mis gustos?`;
+            const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
         }
 
         function openLightbox(id) {
@@ -1700,19 +2016,28 @@
 
         function renderProducts(filterText = '') {
             const grid = document.getElementById('products-grid');
+            const countEl = document.getElementById('results-count');
             if (!grid) return;
             grid.innerHTML = '';
 
             const filtered = perfumes.filter(p => {
+                const isAgotado = p.tag.toLowerCase().includes('agotado');
                 const matchesBrand = currentBrand === 'all' || p.house.toLowerCase() === currentBrand.toLowerCase();
+                const matchesGender = currentGender === 'all' || (p.gender && p.gender.toLowerCase() === currentGender.toLowerCase());
+                const matchesAvail = !onlyAvailable || !isAgotado;
                 const matchesSearch = p.name.toLowerCase().includes(filterText.toLowerCase()) || 
                                       p.inspired.toLowerCase().includes(filterText.toLowerCase()) ||
-                                      p.house.toLowerCase().includes(filterText.toLowerCase());
-                return matchesBrand && matchesSearch;
+                                      p.house.toLowerCase().includes(filterText.toLowerCase()) ||
+                                      (p.occasion && p.occasion.toLowerCase().includes(filterText.toLowerCase()));
+                return matchesBrand && matchesGender && matchesAvail && matchesSearch;
             });
 
+            if (countEl) {
+                countEl.textContent = `Mostrando ${filtered.length} ${filtered.length === 1 ? 'fragancia' : 'fragancias'}`;
+            }
+
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">No se encontraron perfumes con esa búsqueda o marca.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">No se encontraron perfumes con esos filtros.</div>`;
                 return;
             }
 
@@ -1735,6 +2060,10 @@
                     </div>
                 ` : '';
 
+                const occasionBadge = p.occasion 
+                    ? `<span class="inline-block text-[11px] text-gold-light bg-gold/10 border border-gold/25 px-2.5 py-0.5 rounded-full font-medium">${p.occasion}</span>` 
+                    : '';
+
                 grid.innerHTML += `
                     <div class="bg-cardBg border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-gold/50 transition-all duration-300 shadow-xl group">
                         <div>
@@ -1749,7 +2078,10 @@
                                 ${carouselControls}
                             </div>
                             <div class="p-5 space-y-2">
-                                <span class="text-xs text-gold uppercase tracking-widest font-semibold">${p.house}</span>
+                                <div class="flex items-center justify-between gap-2 flex-wrap">
+                                    <span class="text-xs text-gold uppercase tracking-widest font-semibold">${p.house}</span>
+                                    ${occasionBadge}
+                                </div>
                                 <h3 class="font-serif text-lg font-bold text-white leading-tight">${p.name}</h3>
                                 <p class="text-xs text-gray-400 italic">${p.inspired}</p>
                             </div>
@@ -1894,6 +2226,18 @@
             window.open(url, '_blank');
         }
 
+        window.addEventListener('scroll', () => {
+            const topBtn = document.getElementById('scroll-top-btn');
+            if (!topBtn) return;
+            if (window.scrollY > 400) {
+                topBtn.classList.remove('opacity-0', 'pointer-events-none');
+                topBtn.classList.add('opacity-100');
+            } else {
+                topBtn.classList.add('opacity-0', 'pointer-events-none');
+                topBtn.classList.remove('opacity-100');
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             checkAccess();
             renderProducts();
@@ -1901,4 +2245,3 @@
     </script>
 </body>
 </html>
-```[cite: 7]
